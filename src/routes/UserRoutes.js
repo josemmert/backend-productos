@@ -1,4 +1,4 @@
-const UserController=require('../controlers/userControles');
+const UserController=require('../controllers/userController');
 
 const UserRoutes=(base, app)=>{
 
