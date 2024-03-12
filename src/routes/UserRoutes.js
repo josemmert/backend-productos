@@ -1,3 +1,4 @@
+const { EventEmitterAsyncResource } = require('stream');
 const UserController=require('../controllers/userController');
 
 const UserRoutes=(base, app)=>{
@@ -37,6 +38,15 @@ const UserRoutes=(base, app)=>{
         } catch (error) {
             console.error('Error al eliminar un usuario', error);
             return res.status(500).json({message: "Ocurrió un error al intentar eliminar un usuario"})
+        }
+    });
+
+    app.post(`${base}/login`, async(req, res, next)=>{
+        try {
+            const response = await controller.Login(req, res);
+            return response;
+        } catch (error) {
+            next(error)
         }
     })
 
