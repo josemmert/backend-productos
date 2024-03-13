@@ -1,5 +1,6 @@
 const { EventEmitterAsyncResource } = require('stream');
 const UserController=require('../controllers/userController');
+const Auth=require('../utils/AuthMiddlewares');
 
 const UserRoutes=(base, app)=>{
 
@@ -17,7 +18,7 @@ const UserRoutes=(base, app)=>{
         }
     });
 
-    app.post(`${base}`, async(req, res, next)=>{
+    app.post(`${base}`, Auth.isAuth, Auth.isAdmin, async(req, res, next)=>{
         try {
             
             const {email, password}=req.body;
