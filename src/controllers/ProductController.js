@@ -22,11 +22,31 @@ class ProductController{
         }
     };
 
-    async GetAllProducts(){
+    async GetAllProducts(filtro, busqueda){
         try {
+            let finalResponse=[];
+            let query={};
+
+            if (filtro!==undefined) {
+                query["category"]=filtro;
+            };
+
+            if (busqueda!==undefined) {
+                query["title"]={$regex:busqueda, $options:"i"};
+            };
+
+            console.log("###QUERY-->", JSON.stringify(query));
+
+            /*if (filtro===undefined) {
+                finalResponse=await ProductModel.find();
+            }else{
+                finalResponse=await ProductModel.find({
+                    category: filtro
+                });
+            }*/
+            finalResponse=await ProductModel.find(query);
             
-            const products= await ProductModel.find();
-            return products;
+            return finalResponse;
 
         } catch (error) {
             throw error;
