@@ -77,6 +77,14 @@ class ProductController{
         }
     }
 
+    async DeleteProduct(id){
+        try {
+            await ProductModel.findByIdAndDelete(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
 };
 
 module.exports=ProductController;
