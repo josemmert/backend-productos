@@ -32,9 +32,30 @@ const ProductRoutes=(base, app)=>{
             console.error("Error al obtener todos los productos-->", error);
             return res.status(500).json({message:"Ocurrio un error al intentar obtener los productos"});
         }
+    });
+
+    app.get(`${base}/:id`, async(req, res)=>{
+        try {
+            const {id}=req.params;
+            const response=await controller.GetById(id);
+            return res.status(200).json(response);
+        } catch (error) {
+            console.error(`Error al obtener el producto con id--> ${id}`, error);
+            return res.status(500).json({message:"Ocurrio un error al intentar producto"});
+        }
     })
 
-   
+    app.put(`${base}/update`,Auth.isAuth, Auth.isAdmin ,async (req, res)=>{
+        try {
+            const product=req.body;
+            await controller.UpdateProduct(product);
+            return res.status(200).json({message:"Exito"});
+        } catch (error) {
+            console.error("Error al actualizar un producto-->", error);
+            return res.status(500).json({message:"Ocurrio un error al intentar actualizar el producto"});
+        }
+    })
+
 }
 
 module.exports=ProductRoutes;
